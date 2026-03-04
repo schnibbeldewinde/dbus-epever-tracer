@@ -1,3 +1,14 @@
 #!/bin/sh
-exec 2>&1
-exec multilog t s25000 n4 /var/log/dbus-epever-tracer.TTY
+# Wir nutzen den Ordnernamen des übergeordneten Verzeichnisses
+# /service/dbus-epever-tracer.ttyUSB3 -> ttySC1 wird ttyUSB3
+ttySC1=$(basename $(dirname $(pwd)) | cut -d. -f2)
+
+# Fallback falls die Erkennung fehlschlägt
+if [ -z "$ttySC1" ] || [ "$ttyUSB1" = "service" ]; then
+    ttySC1="general"
+fi
+
+# Stelle sicher, dass das Log-Verzeichnis existiert
+mkdir -p /var/log/dbus-epever-tracer.$ttySC1
+
+exec multilog t s25000 n4 /var/log/dbus-epever-tracer.$ttySC1

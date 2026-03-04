@@ -1,3 +1,8 @@
 #!/bin/sh
 exec 2>&1
-exec /opt/victronenergy/dbus-epever-tracer/start-dbus-epever-tracer.sh TTY
+
+# Extrahiere den Portnamen (alles nach dem Punkt, z.B. ttyUSB3)
+tty=$(basename $(pwd) | sed 's/.*\.//')
+
+# Rufe den Wrapper auf und übergib Port UND einen Dummy-Namen (für shift 2)
+exec /opt/victronenergy/dbus-epever-tracer/start-dbus-epever-tracer.sh $tty "Epever"

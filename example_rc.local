@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo "Reinstall: Epever (Floating)"
+mount -o remount,rw /
+
+# Erstelle die Ordner-Verknüpfungen nach einem Neustart
+if [ ! -L /opt/victronenergy/dbus-epever-tracer ]; then
+   ln -s /data/dbus-epever-tracer /opt/victronenergy/dbus-epever-tracer
+fi
+
+# Template als ECHTEN Ordner kopieren (kein Symlink!)
+rm -rf /opt/victronenergy/service-templates/dbus-epever-tracer
+cp -r /data/dbus-epever-tracer/service /opt/victronenergy/service-templates/dbus-epever-tracer
+
